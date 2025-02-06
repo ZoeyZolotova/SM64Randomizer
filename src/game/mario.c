@@ -1632,7 +1632,7 @@ void mario_update_hitbox_and_cap_model(struct MarioState *m) {
         bodyState->modelState = MODEL_STATE_NOISE_ALPHA;
     }
 
-    if (flags & (MARIO_METAL_CAP | MARIO_METAL_SHOCK)) {
+    if ((flags & (MARIO_METAL_CAP | MARIO_METAL_SHOCK)) || gOptionsSettings.cosmetic.s.marioColors == 3) {
         bodyState->modelState |= MODEL_STATE_METAL;
     }
 

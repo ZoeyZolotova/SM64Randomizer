@@ -999,7 +999,7 @@ void randomize_options() {
     gOptionsSettings.gameplay.s.objectRandomization = randomize_weighted_2(1, 3); // weight only key objects lower
     gOptionsSettings.gameplay.s.randomizeStarSpawns = random_u16() % 2;
 
-    gOptionsSettings.cosmetic.s.marioColors = random_u16() % 3;
+    gOptionsSettings.cosmetic.s.marioColors = random_u16() % 4;
     gOptionsSettings.cosmetic.s.musicOn = random_u16() % 2; // music off not option
     gOptionsSettings.cosmetic.s.skyboxOn = random_u16() % 2;
     gOptionsSettings.cosmetic.s.coinsOn = random_u16() % 2;
@@ -2291,6 +2291,26 @@ void options_page_print_three(u32 currentSelected, s16 y,
     print_generic_text_ascii(x3, y, str3);
 }
 
+void options_page_print_four(u32 currentSelected, s16 y, 
+    s16 x1, s16 x2, s16 x3, s16 x4, const char *str1, const char *str2, const char *str3, const char * str4) {
+
+    u8 rgbVal = (currentSelected == 0 ? 255 : 40);
+    gDPSetEnvColor(gDisplayListHead++, rgbVal, rgbVal, rgbVal, sTextBaseAlpha);
+    print_generic_text_ascii(x1, y, str1);
+    
+    rgbVal = (currentSelected == 1 ? 255 : 40);
+    gDPSetEnvColor(gDisplayListHead++, rgbVal, rgbVal, rgbVal, sTextBaseAlpha);
+    print_generic_text_ascii(x2, y, str2);
+    
+    rgbVal = (currentSelected == 2 ? 255 : 40);
+    gDPSetEnvColor(gDisplayListHead++, rgbVal, rgbVal, rgbVal, sTextBaseAlpha);
+    print_generic_text_ascii(x3, y, str3);
+    
+    rgbVal = (currentSelected == 3 ? 255 : 40);
+    gDPSetEnvColor(gDisplayListHead++, rgbVal, rgbVal, rgbVal, sTextBaseAlpha);
+    print_generic_text_ascii(x4, y, str4);
+}
+
 char *textsCosmetic[] = {
     "MARIO COLORS",
     "STAR COLORS",
@@ -2303,14 +2323,17 @@ char *textsCosmetic[] = {
 static void page_cosmetics() {
     u32 i;
     
-    if (check_clicked_text(165, OPTIONS_Y(0), 0)){
+    if (check_clicked_text(143, OPTIONS_Y(0), 0)){
         gOptionsSettings.cosmetic.s.marioColors = 0;
     }
-    if (check_clicked_text_width(198, OPTIONS_Y(0), 0, 45)){
+    if (check_clicked_text_width(176, OPTIONS_Y(0), 0, 45)){
         gOptionsSettings.cosmetic.s.marioColors = 1;
     }
-    if (check_clicked_text(250, OPTIONS_Y(0), 0)){
+    if (check_clicked_text(228, OPTIONS_Y(0), 0)){
         gOptionsSettings.cosmetic.s.marioColors = 2;
+    }
+    if (check_clicked_text(255, OPTIONS_Y(0), 0)){
+        gOptionsSettings.cosmetic.s.marioColors = 3;
     }
 
     s32 temp = gOptionsSettings.cosmetic.s.starColors;
@@ -2517,7 +2540,9 @@ struct InfoDisplay aestheticInfo[] = {
 Randomize the colors of Mario\x3Es\n\
 model\x3F Selecting CLOTHES will\n\
 keep his hair and skin their\n\
-regular color\x3F", 170, 4},
+regular color\x3F Selecting IRON\n\
+will make him metal in appearance\n\
+only\x3F", 170, 6},
 
     {"\
 Randomize the color of stars\x3F\n\
@@ -2561,8 +2586,8 @@ void page_cosmetics_print() {
     
     options_page_print_options(textCountCosmetics, textsCosmetic);
     
-    options_page_print_three(gOptionsSettings.cosmetic.s.marioColors, OPTIONS_Y(0),
-        165, 198, 250, "OFF", "CLOTHES", "ALL");
+    options_page_print_four(gOptionsSettings.cosmetic.s.marioColors, OPTIONS_Y(0),
+        143, 176, 228, 255, "OFF", "CLOTHES", "ALL", "IRON");
 
     options_page_print_three(gOptionsSettings.cosmetic.s.musicOn, OPTIONS_Y(4),
         171, 206, 240, "OFF", "ON", "MUTED");
